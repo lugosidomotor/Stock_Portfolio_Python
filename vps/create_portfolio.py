@@ -7,7 +7,9 @@ from datetime import date, timedelta
 today = str(date.today())
 
 #Create the DataFrame and fill with historical data
-df = pd.read_csv('stocks' + today + '.csv')
+df = pd.read_csv('stocks' + today + '.csv', header = 0)
+print(df)
+
 assets = df.columns
 
 #Optimize the portfolio
