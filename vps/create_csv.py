@@ -17,4 +17,4 @@ for symbol in tickers:
 #Drop the rows where at least one element is missing.
 df = df.dropna()
 
-df.to_csv('stocks' + today + '.csv')
+df.to_csv('stocks' + today + '.csv', index=False)
