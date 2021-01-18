@@ -10,9 +10,6 @@ today = str(date.today())
 df = pd.read_csv('stocks-' + today + '.csv', header = 0)
 print(df)
 
-df = df.clip(lower=1)
-print("NEGATIVE: " + str(df.agg(lambda x: sum(x < 0)).sum()))
-
 #df = df.iloc[:, 1500:1972]
 
 assets = df.columns
