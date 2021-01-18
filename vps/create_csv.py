@@ -19,12 +19,14 @@ for symbol in tickers:
         try:
             df[symbol] = pdr.get_data_yahoo(symbol, start=five_years_ago, end=today)["Adj Close"]
             print("Reading: " + symbol)
-            #print(df[symbol])
         except:
             print("ERROR TO GET DATA")
 
 # Dropping the columns having NaN/NaT values 
-df = df.dropna(axis=1) 
+df = df.dropna(axis=1)
+
+df = df.clip(lower=1)
+print("NEGATIVE: " + str(df.agg(lambda x: sum(x < 0)).sum()))
 
 print(df)
 
