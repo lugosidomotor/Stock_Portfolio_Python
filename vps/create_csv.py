@@ -18,7 +18,7 @@ for symbol in tickers:
         try:
             df[symbol] = pdr.get_data_yahoo(symbol, start=five_years_ago, end=today)["Adj Close"]
             print("Reading: " + symbol)
-            print(df[symbol])
+            #print(df[symbol])
         except:
             print("ERROR TO GET DATA")
 
