@@ -7,8 +7,13 @@ from datetime import date, timedelta
 today = str(date.today())
 
 #Create the DataFrame and fill with historical data
-df = pd.read_csv('stocks' + today + '.csv', header = 0)
+df = pd.read_csv('stocks-' + today + '.csv', header = 0)
 print(df)
+
+df = df.clip(lower=1)
+print("NEGATIVE: " + str(df.agg(lambda x: sum(x < 0)).sum()))
+
+#df = df.iloc[:, 1500:1972]
 
 assets = df.columns
 
@@ -17,7 +22,7 @@ from pypfopt.efficient_frontier import EfficientFrontier
 from pypfopt import risk_models
 from pypfopt import expected_returns
 
-#Calculate the expected annualized returns and the annualized ...
+#Calculate the expected annualized returns and the annualized...
 mu = expected_returns.mean_historical_return(df)
 S = risk_models.sample_cov(df)
 
@@ -30,7 +35,6 @@ print(cleaned_weights)
 
 ef.portfolio_performance(verbose=True)
 
-
 #Get the discrete allocation of each share per stock
 from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
 
@@ -42,7 +46,7 @@ allocation, leftover = da.lp_portfolio()
 print('Discrete allocation: ', allocation)
 print('Funds Rreaming $', leftover)
 
-#Get the companies name
+#Get the companies names
 def get_company_name(symbol):
   url = 'http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=' + symbol + '&region=1&lang=en'
   result = requests.get(url).json()
@@ -51,11 +55,10 @@ def get_company_name(symbol):
       return r['name']
 
 company_name = []
+discrete_allocation_list = []
+
 for symbol in allocation:
   company_name.append(get_company_name(symbol))
-
-discrete_allocation_list = []
-for symbol in allocation:
   discrete_allocation_list.append(allocation.get(symbol))
 
 portfolio_df = pd.DataFrame(columns=['Company_name', 'Company_Ticker', 'Discrete_val_'+ str(portfolio_val)])
