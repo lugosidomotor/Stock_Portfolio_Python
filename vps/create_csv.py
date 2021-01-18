@@ -22,8 +22,8 @@ for symbol in tickers:
         except:
             print("ERROR TO GET DATA")
 
-#Drop the rows where at least one element is missing.
-#df = df.dropna()
+# Dropping the columns having NaN/NaT values 
+df = df.dropna(axis=1) 
 
 print(df)
 
