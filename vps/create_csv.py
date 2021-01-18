@@ -5,7 +5,7 @@ from datetime import date, timedelta
 import yfinance as yf
 
 today = str(date.today())
-five_years_ago = str(date.today() - timedelta(5))
+five_years_ago = str(date.today() - timedelta(1825))
 yf.pdr_override()
 
 #Create the DataFrame and fill with historical data
