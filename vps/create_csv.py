@@ -8,6 +8,7 @@ today = str(date.today())
 five_years_ago = str(date.today() - timedelta(1825))
 yf.pdr_override()
 
+#Get list of companies in .csv from https://www.nasdaq.com/market-activity/stocks/screener
 #Create the DataFrame and fill with historical data
 tickers = pd.read_csv('nasdaq.csv')['Symbol']
 
