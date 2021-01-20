@@ -1,4 +1,3 @@
-import streamlit as st
 import pandas as pd
 from PIL import Image
 ####
@@ -19,7 +18,6 @@ st.set_page_config(
 	page_icon="💵",
 	initial_sidebar_state="expanded")
 
-
 st.title("💰🤑💵 Portfólió optimalizáció 💵🤑💰")
 #st.subheader('Kizárólag Revoluton kereskedett részvényekből')
 
@@ -36,7 +34,6 @@ def get_input():
     return value
 
 portfolio_val = int(get_input())
-
 
 ####### LOGIC ######
 
@@ -63,7 +60,6 @@ weights = ef.max_sharpe()
 cleaned_weights = ef.clean_weights()
 ef.portfolio_performance(verbose=True)
 
-
 #Get the discrete allocation of each share per stock
 latest_prices = get_latest_prices(df)
 weights = cleaned_weights
@@ -88,31 +84,14 @@ for symbol in allocation:
   discrete_allocation_list.append(allocation.get(symbol))
   #symbols.append(allocation.get(symbol))
   
-
 portfolio_df = pd.DataFrame(columns=['Cég', 'Szimbólum', 'Részvények_száma'])
 
 portfolio_df['Cég'] = company_name
 portfolio_df['Szimbólum'] = allocation
 portfolio_df['Részvények_száma'] = discrete_allocation_list
 
-
 above_df = "Várható éves hozam: " +  str(round(ef.portfolio_performance(verbose=True)[0] * 100, 2)) + "%   |  " + "Volatiritás: " +  str(round(ef.portfolio_performance(verbose=True)[1] * 100, 2)) + "%   |  " + "Sharpe-ráta: " +  str(round(ef.portfolio_performance(verbose=True)[2], 3))
-
-
-
-
 
 st.write(above_df , portfolio_df, 'A végén marad: ' + str(round(leftover, 2)) + "$")
 st.write("Az elemzéshez használt részvények listája:")
 st.write(assets)
-
-
-
-
-
-
-
-
-
-
-
