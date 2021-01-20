@@ -1,0 +1,7 @@
+streamlit
+pandas
+numpy
+requests
+pandas_datareader
+matplotlib
+PyPortfolioOpt
