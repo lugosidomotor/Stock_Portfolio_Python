@@ -1,3 +1,6 @@
+* DOMAIN=cloudtroopers.hu
+* sudo docker network create traefik
+
 ### Sharpe-ráta:
 * https://elemzeskozpont.hu/sharpe-rata-sharpe-mutato-mit-jelent-miert-fontos-hasznalata
 * https://elemzeskozpont.hu/befektetesi-alapok-teljesitmenynek-osszehasonlitasa-sharpe-mutato
