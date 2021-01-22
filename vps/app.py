@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 ####### APPLICATION ######
 st.set_page_config(
-	page_title="Revolut Portólió",
+	page_title="Trading Toolbox",
 	page_icon="💵",
 	initial_sidebar_state="expanded")
 
@@ -127,3 +127,9 @@ csv = str(get_csv())
 
 if st.button('📈 Portfólió készítése'):
     create_portfolio()
+
+if st.button('🤖 Részvényár-előrejelzés gépi tanulás segítségével'):
+    st.write("HAMAROSAN..")
+
+if st.button('🎢 Tőzsdei hangulatelemzés gépi tanulás segítségével'):
+    st.write("HAMAROSAN..")
