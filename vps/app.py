@@ -1,3 +1,4 @@
+import streamlit as st
 import pandas as pd
 from PIL import Image
 ####
@@ -18,8 +19,8 @@ st.set_page_config(
 	page_icon="💵",
 	initial_sidebar_state="expanded")
 
-st.title("💰🤑💵 Portfólió optimalizáció 💵🤑💰")
-#st.subheader('Kizárólag Revoluton kereskedett részvényekből')
+st.title("💰🤑💵 Portfólió optimalizáló 💵🤑💰")
+#st.subheader('Gecilassú, de teszi a dolgát... ------^ ')
 
 image = Image.open("header.jpg")
 
@@ -30,22 +31,41 @@ st.image(image, use_column_width=True)
 def get_input():
     #start_date = st.sidebar.text_input("Start Date", "2020-01-02")
     #end_date = st.sidebar.text_input("End Date", "2021-01-02")
-    value = st.sidebar.text_input("Befektetni kívánt összeg:", "1000")
+    value = st.sidebar.text_input("Befektetni kívánt összeg dollárban:", "1000")
+
+    if value == '1':
+       st.sidebar.write("⚠️ Túl alacsony összeg")
+    elif int(value) <= 0:
+       st.sidebar.write("⚠️ Negatív összeg")
+    return value
+
+def get_csv():
+    options =  values = ["Revolut", "NASDAQ", "NYSE"]
+    default_ix = "Revolut"
+    value = st.sidebar.selectbox("Válassz tőzsdét: ", options, key='1')
+
+    if value == "Revolut":
+       value = './data/revolut.csv'
+       st.sidebar.write("📈 Részvények, amik a Revolut appon belül kereskedhetőek.")
+    else:
+       value = './data/revolut.csv'
+       st.sidebar.write("Még nem működik... 🤡  A Revolut opció eredményét látod most.")
     return value
 
 portfolio_val = int(get_input())
+csv = str(get_csv())
 
 ####### LOGIC ######
 
 today = str(date.today())
 
 #Create the DataFrame and fill with historical data
-df = pd.read_csv('stocks-' + today + 'final.csv', header = 0)
+df = pd.read_csv(csv, header = 0)
 
 df = df.clip(lower=0.1)
 print("NEGATIVE: " + str(df.agg(lambda x: sum(x < 0)).sum()))
 
-df = df.iloc[:, 0:10]
+df = df.iloc[:, 0:200]
 
 assets = df.columns
 
@@ -90,8 +110,9 @@ portfolio_df['Cég'] = company_name
 portfolio_df['Szimbólum'] = allocation
 portfolio_df['Részvények_száma'] = discrete_allocation_list
 
-above_df = "Várható éves hozam: " +  str(round(ef.portfolio_performance(verbose=True)[0] * 100, 2)) + "%   |  " + "Volatiritás: " +  str(round(ef.portfolio_performance(verbose=True)[1] * 100, 2)) + "%   |  " + "Sharpe-ráta: " +  str(round(ef.portfolio_performance(verbose=True)[2], 3))
+above_df = "Várható éves hozam: " +  str(round(ef.portfolio_performance(verbose=True)[0] * 100, 2)) + "%   |  " + "Volatilitás: " +  str(round(ef.portfolio_performance(verbose=True)[1] * 100, 2)) + "%   |  " + "Sharpe-ráta: " +  str(round(ef.portfolio_performance(verbose=True)[2], 3))
 
+st.write("Az első két oszlop a cég nevét és tőzsdei szimbólumát mutatja, a harmadik pedig azt, hogy hány darab részvényt kell belőle venned a kalkuláció szerint")
 st.write(above_df , portfolio_df, 'A végén marad: ' + str(round(leftover, 2)) + "$")
-st.write("Az elemzéshez használt részvények listája:")
+st.write("Elemzéshez felhasznált részvények listája:")
 st.write(assets)
