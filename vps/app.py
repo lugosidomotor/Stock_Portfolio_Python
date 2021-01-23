@@ -122,14 +122,35 @@ def create_portfolio():
     st.write("Elemzéshez felhasznált részvények listája:")
     st.write(assets)
 
+##############  STOCK PREDICTION ##############
+
+def get_company_name():
+    tickers = pd.read_csv('comany_tickers.csv')['Symbols']
+    value = st.sidebar.selectbox('Válassz céget',tickers)
+    return value
+
+#################### SIDEBAR ###################
+
+st.sidebar.subheader("📈 Portfólió optimalizálása")
 portfolio_val = int(get_input())
 csv = str(get_csv())
 
-if st.button('📈 Portfólió készítése'):
+
+if st.sidebar.button('🔍 Portfólió készítése!'):
     create_portfolio()
 
-if st.button('🤖 Részvényár-előrejelzés gépi tanulás segítségével'):
+#----------
+
+st.sidebar.subheader("🤖 Részvényár-előrejelzés gépi tanulás segítségével")
+
+selected_company = get_company_name()
+
+if st.sidebar.button('🔍 Árfolyam számítása!'):
     st.write("HAMAROSAN..")
 
-if st.button('🎢 Tőzsdei hangulatelemzés gépi tanulás segítségével'):
+#----------
+
+st.sidebar.subheader("🎢 Piaci hangulatelemzés gépi tanulás segítségével")
+
+if st.sidebar.button('🔍 Elemzés!'):
     st.write("HAMAROSAN..")
