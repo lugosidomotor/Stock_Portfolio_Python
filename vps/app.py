@@ -139,7 +139,7 @@ five_years_ago = str(date.today() - timedelta(3650))
 
 def selected_company():
     tickers = pd.read_csv('comany_tickers.csv')['Symbols'].tolist()
-    value = st.sidebar.selectbox('Válassz céget',tickers)
+    value = st.sidebar.selectbox('Válassz céget:',tickers)
     return value
     
 def get_historical_data(selected_company):
