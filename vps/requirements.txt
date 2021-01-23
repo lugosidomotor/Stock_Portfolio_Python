@@ -7,3 +7,4 @@ matplotlib
 PyPortfolioOpt
 currencyconverter
 scikit-learn
+yfinance
