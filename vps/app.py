@@ -36,7 +36,7 @@ def get_input():
     c = CurrencyConverter()
     value = st.sidebar.text_input("Befektetni kívánt összeg dollárban:", "1000")
 	
-    HUF = c.convert(value, 'USD', 'HUF')
+    HUF = int(c.convert(value, 'USD', 'HUF'))
     st.sidebar.write("Összeg: ", HUF, 'Ft')
 	
     if value == '1':
