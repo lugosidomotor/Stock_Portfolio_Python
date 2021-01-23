@@ -26,7 +26,7 @@ st.title("💰🤑💵 Portfólió optimalizáló 💵🤑💰")
 
 image = Image.open("header.jpg")
 
-st.image(image, use_column_width=True)
+st.sidebar.image(image, use_column_width=True)
 
 #st.sidebar.header("User Input")
 
