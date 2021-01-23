@@ -18,6 +18,8 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.linear_model import LinearRegression
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.svm import SVR
 import yfinance as yf
 plt.style.use("bmh")
 
@@ -167,6 +169,8 @@ def predict_future_price(selected_company):
     
     tree =  DecisionTreeRegressor().fit(x_train, y_train)
     lr = LinearRegression().fit(x_train, y_train)
+    kn = KNeighborsRegressor().fit(x_train, y_train)
+    svr = SVR().fit(x_train, y_train)
     
     x_future = df.drop(['Prediction'],1)[-future_days:]
     x_future = x_future.tail(future_days)
@@ -174,12 +178,16 @@ def predict_future_price(selected_company):
     
     tree_prediction = tree.predict(x_future)
     lr_prediction = lr.predict(x_future)
+    kn_prediction = kn.predict(x_future)
+    svr_prediction = svr.predict(x_future)
     
     valid = df[X.shape[0]:]
     valid = valid.drop(['Prediction'],1)
  
     valid['Prediction_tree'] = tree_prediction
     valid['Prediction_lr'] = lr_prediction
+    valid['Prediction_kn'] = kn_prediction
+    valid['Prediction_svr'] = svr_prediction
     st.write(valid)
     
     st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -200,6 +208,22 @@ def predict_future_price(selected_company):
     plt.ylabel("Ár ($)")
     st.pyplot()
 
+    st.write("KNeighborsRegressor alapú predikció")
+    plt.figure(figsize=(20,10))
+    plt.plot(df['Close'].iloc[-90:])
+    plt.plot(valid[['Close', 'Prediction_kn']])
+    plt.legend(["Megelőző időszak", "Valódi ár", "Prediktált ár"])
+    plt.ylabel("Ár ($)")
+    st.pyplot()
+    
+    st.write("SVR alapú predikció")
+    plt.figure(figsize=(20,10))
+    plt.plot(df['Close'].iloc[-90:])
+    plt.plot(valid[['Close', 'Prediction_svr']])
+    plt.legend(["Megelőző időszak", "Valódi ár", "Prediktált ár"])
+    plt.ylabel("Ár ($)")
+    st.pyplot()
+	
 #################### SIDEBAR ###################
 
 st.sidebar.subheader("📈 Portfólió optimalizálása")
