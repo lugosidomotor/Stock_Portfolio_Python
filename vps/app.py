@@ -12,7 +12,14 @@ from pypfopt.efficient_frontier import EfficientFrontier
 from pypfopt import risk_models
 from pypfopt import expected_returns
 from currency_converter import CurrencyConverter
+
+####Stock prediction######
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.linear_model import LinearRegression
+import yfinance as yf
+plt.style.use("bmh")
 
 ####### APPLICATION ######
 st.set_page_config(
@@ -127,11 +134,71 @@ def create_portfolio():
     st.write(assets)
 
 ##############  STOCK PREDICTION ##############
+today = str(date.today())
+five_years_ago = str(date.today() - timedelta(3650))
 
-def get_company_name():
-    tickers = pd.read_csv('company_tickers.csv')['Symbols']
+def selected_company():
+    tickers = pd.read_csv('comany_tickers.csv')['Symbols'].tolist()
     value = st.sidebar.selectbox('Válassz céget',tickers)
     return value
+    
+def get_historical_data(selected_company):
+    st.write("Historikus adatok")
+    df = pdr.get_data_yahoo(selected_company, start=five_years_ago, end=today)
+    st.write(df)
+    
+def plot_historical_data(selected_company):
+    df = pdr.get_data_yahoo(selected_company, start=five_years_ago, end=today)
+    st.write("Zárási ár grafikon")
+    df_plot = df['Adj Close']
+    st.line_chart(df_plot)
+    
+def predict_future_price(selected_company):
+    st.write("Prediktált árfolyam")
+    df = pdr.get_data_yahoo(selected_company, start=five_years_ago, end=today)
+    all_data = df[["Close"]]
+    #st.line_chart(all_data)
+    df = df[["Close"]]
+    future_days = 25
+    df['Prediction'] = df[['Close']].shift(-future_days)
+    X = np.array(df.drop(['Prediction'],1))[:-future_days]
+    y = np.array(df['Prediction'])[:-future_days]
+    x_train, x_test, y_train, y_test = train_test_split(X, y,test_size=0.25)
+    
+    tree =  DecisionTreeRegressor().fit(x_train, y_train)
+    lr = LinearRegression().fit(x_train, y_train)
+    
+    x_future = df.drop(['Prediction'],1)[-future_days:]
+    x_future = x_future.tail(future_days)
+    x_future = np.array(x_future)
+    
+    tree_prediction = tree.predict(x_future)
+    lr_prediction = lr.predict(x_future)
+    
+    valid = df[X.shape[0]:]
+    valid = valid.drop(['Prediction'],1)
+ 
+    valid['Prediction_tree'] = tree_prediction
+    valid['Prediction_lr'] = lr_prediction
+    st.write(valid)
+    
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    
+    st.write("DecisionTreeRegressor alapú predikció")
+    plt.figure(figsize=(16,8))
+    plt.plot(df['Close'].iloc[-90:])
+    plt.plot(valid[['Close', 'Prediction_tree']])
+    plt.legend(["Megelőző időszak", "Valódi ár", "Prediktált ár"])
+    plt.ylabel("Ár ($)")
+    st.pyplot()
+    
+    st.write("LinearRegression alapú predikció")
+    plt.figure(figsize=(16,8))
+    plt.plot(df['Close'].iloc[-90:])
+    plt.plot(valid[['Close', 'Prediction_lr']])
+    plt.legend(["Megelőző időszak", "Valódi ár", "Prediktált ár"])
+    plt.ylabel("Ár ($)")
+    st.pyplot()
 
 #################### SIDEBAR ###################
 
@@ -147,10 +214,12 @@ if st.sidebar.button('🔍 Portfólió készítése!'):
 
 st.sidebar.subheader("🤖 Részvényár-előrejelzés")
 
-selected_company = get_company_name()
+selected_company = selected_company()
 
 if st.sidebar.button('🔍 Árfolyam számítása!'):
-    st.write("HAMAROSAN..")
+    #get_historical_data(selected_company)
+    #plot_historical_data(selected_company)
+    predict_future_price(selected_company)
 
 #----------
 
