@@ -5,7 +5,7 @@ from PIL import Image
 import pandas as pd
 import numpy as np
 import requests
-import pandas_datareader as web
+import pandas_datareader as pdr
 from datetime import date, timedelta
 from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
 from pypfopt.efficient_frontier import EfficientFrontier
