@@ -146,7 +146,7 @@ if st.sidebar.button('🔍 Portfólió készítése!'):
 
 #----------
 
-st.sidebar.subheader("🤖 Részvényár-előrejelzés gépi tanulás segítségével")
+st.sidebar.subheader("🤖 Részvényár-előrejelzés")
 
 selected_company = get_company_name()
 
@@ -155,7 +155,7 @@ if st.sidebar.button('🔍 Árfolyam számítása!'):
 
 #----------
 
-st.sidebar.subheader("🎢 Piaci hangulatelemzés gépi tanulás segítségével")
+st.sidebar.subheader("🎢 Piaci hangulatelemzés")
 
 if st.sidebar.button('🔍 Elemzés!'):
     st.write("HAMAROSAN..")
