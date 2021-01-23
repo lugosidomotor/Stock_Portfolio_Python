@@ -125,7 +125,7 @@ def create_portfolio():
 ##############  STOCK PREDICTION ##############
 
 def get_company_name():
-    tickers = pd.read_csv('comany_tickers.csv')['Symbols']
+    tickers = pd.read_csv('company_tickers.csv')['Symbols']
     value = st.sidebar.selectbox('Válassz céget',tickers)
     return value
 
