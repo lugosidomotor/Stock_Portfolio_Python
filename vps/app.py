@@ -11,6 +11,7 @@ from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
 from pypfopt.efficient_frontier import EfficientFrontier
 from pypfopt import risk_models
 from pypfopt import expected_returns
+from currency_converter import CurrencyConverter
 import matplotlib.pyplot as plt
 
 ####### APPLICATION ######
@@ -32,8 +33,12 @@ st.image(image, use_column_width=True)
 def get_input():
     #start_date = st.sidebar.text_input("Start Date", "2020-01-02")
     #end_date = st.sidebar.text_input("End Date", "2021-01-02")
+    c = CurrencyConverter()
     value = st.sidebar.text_input("Befektetni kívánt összeg dollárban:", "1000")
-
+	
+    HUF = c.convert(value, 'USD', 'HUF')
+    st.sidebar.write("Összeg: ", HUF, 'Ft')
+	
     if value == '1':
        st.sidebar.write("⚠️ Túl alacsony összeg")
     elif int(value) <= 0:
