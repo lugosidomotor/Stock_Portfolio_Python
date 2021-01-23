@@ -118,12 +118,11 @@ def create_portfolio():
     portfolio_df['Szimbólum'] = allocation
     portfolio_df['Részvények_száma'] = discrete_allocation_list
 
-
     above_df = "Várható éves hozam: " +  str(round(ef.portfolio_performance(verbose=True)[0] * 100, 2)) + "%   |  " + "Volatilitás: " +  str(round(ef.portfolio_performance(verbose=True)[1] * 100, 2)) + "%   |  " + "Sharpe-ráta: " +  str(round(ef.portfolio_performance(verbose=True)[2], 3))
 
-
     st.write("Az első két oszlop a cég nevét és tőzsdei szimbólumát mutatja, a harmadik pedig azt, hogy hány darab részvényt kell belőle venned a kalkuláció szerint")
-    st.write(above_df , portfolio_df, 'A végén marad: ' + str(round(leftover, 2)) + "$")
+    st.success(str(above_df))
+    st.write(portfolio_df, 'A végén marad: ' + str(round(leftover, 2)) + "$")
     st.write("Elemzéshez felhasznált részvények listája:")
     st.write(assets)
 
