@@ -30,8 +30,7 @@ st.set_page_config(
 	initial_sidebar_state="expanded")
 
 
-st.title("💰🤑💵 Portfólió optimalizáló 💵🤑💰")
-#st.subheader('Gecilassú, de teszi a dolgát... ------^ ')
+st.title("🔮 Gépi tanulás alapú tőzsdei eszközök")
 
 image = Image.open("header.jpg")
 
@@ -247,7 +246,17 @@ if st.sidebar.button('🔍 Árfolyam számítása!'):
 
 #----------
 
+st.sidebar.subheader("📚 Fundamentális elemzés")
+
+if st.sidebar.button('🔍 Kiválasztott cég elemzése!'):
+    st.write("HAMAROSAN...")
+
+if st.sidebar.button('🔍 Összesített kimutatások!'):
+    st.write("HAMAROSAN...")
+
+#----------
+
 st.sidebar.subheader("🎢 Piaci hangulatelemzés")
 
 if st.sidebar.button('🔍 Elemzés!'):
-    st.write("HAMAROSAN..")
+    st.write("HAMAROSAN...")
